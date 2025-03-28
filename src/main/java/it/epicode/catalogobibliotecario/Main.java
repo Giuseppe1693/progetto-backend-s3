@@ -41,6 +41,34 @@ public class Main {
         Prestito prestito = new Prestito(utente, libro1, LocalDate.now());
         prestitoDAO.save(prestito);
 
+        System.out.println("Ricerca elemento per ISBN '1234567890':");
+        ElementoCatalogo trovatoISBN = elementoDAO.findByISBN("1234567890");
+        System.out.println("- Trovato: " + trovatoISBN.getTitolo());
+
+        System.out.println("\nRicerca libri di J.R.R. Tolkien:");
+        libroDAO.findByAutore("J.R.R. Tolkien")
+                .forEach(l -> System.out.println("- " + l.getTitolo()));
+
+        System.out.println("\nElementi pubblicati nel 2021:");
+        elementoDAO.ricercaPerAnno(2021)
+                .forEach(e -> System.out.println("- " + e.getTitolo()));
+
+        System.out.println("\nElementi con titolo contenente 'Anelli':");
+        elementoDAO.ricercaPerTitolo("Anelli")
+                .forEach(e -> System.out.println("- " + e.getTitolo()));
+
+        System.out.println("\nElementi attualmente in prestito per tessera T12345:");
+        prestitoDAO.findPrestitiInCorsoByNumeroTessera("T12345")
+                .forEach(p -> System.out.println("- " + p.getElemento().getTitolo()));
+
+        System.out.println("\nPrestiti scaduti e non restituiti:");
+        prestitoDAO.findPrestitiScaduti()
+                .forEach(p -> System.out.println("- " + p.getElemento().getTitolo() +
+                        " (Data prevista restituzione: " + p.getDataPrevistaRestituzione() + ")"));
+
+        elementoDAO.delete("2233445566");
+        System.out.println("\nLibro con ISBN '2233445566' rimosso.");
+
         em.close();
         emf.close();
     }
