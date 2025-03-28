@@ -1,0 +1,30 @@
+[ElementoCatalogo] (abstract)
+   |
+   |--[Libro] (autore, genere)
+   |
+   |--[Rivista] (periodicità)
+
+[Utente] (id, nome, cognome, dataNascita, numeroTessera)
+   |
+   |<-- (N) [Prestito] (id, dataInizio, dataPrevistaRestituzione, dataEffettivaRestituzione) --> (1) [ElementoCatalogo]
+
+
+Relazioni
+- ElementoCatalogo 1 < (possiede) > N Prestito
+Ogni elemento del catalogo può essere prestato più volte nel tempo,
+oppure mai.
+
+- Utente 1 < (effettua) > N Prestito
+Un utente può effettuare più prestiti, mentre ogni prestito è associato a un unico utente.
+
+- ElementoCatalogo > Libro/Rivista (ereditarietà)
+Libro e Rivista ereditano da ElementoCatalogo, specializzando attributi specifici.
+
+Giustificazione delle scelte progettuali
+- ElementoCatalogo rappresenta l'entità generale comune a tutti gli elementi (Libri e Riviste), consentendo di evitare ridondanze e facilitando future espansioni.
+
+- La specializzazione in Libro e Rivista permette di specificare attributi aggiuntivi specifici per ciascun tipo di elemento.
+
+- L'entità Utente è indipendente e permette di mantenere informazioni personali e di gestione degli utenti.
+
+- La relazione Prestito collega un singolo elemento del catalogo a un singolo utente, registrando dettagli e stato del prestito stesso.
